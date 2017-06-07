@@ -1,0 +1,165 @@
+assign(lhs1, exp1, check1) ::= <<<check1>
+<lhs1> = <exp1> >>
+
+assignStatement(assign1)::= "<assign1>;"
+
+lhsId(id1) ::="<id1>"
+
+lhsField(exp1, id1) ::="<exp1>-><id1>"
+
+lhsArrayAccess(exp1, index) ::="<exp1>[<index>]" 
+
+binaryExp(exp1, op, exp2) ::="<exp1> <op> <exp2>"
+
+condExp(exp1,exp2,exp3) ::="<exp1> ? <exp2> : <exp3>"
+
+unaryExp(op, exp1) ::="<op><exp1>"
+
+lhsArrayCheck(exp1, index1, size1)::=<< checkArray(<exp1>,<index1>, "<exp1>", <size1>);
+checkNotNull(&<exp1>[<index1>]);>>
+
+lhsFieldCheck(exp1)::="checkNotNull(&(<exp1>));<\n>"
+
+arrayAccess(exp1, index, size1)::="(checkArray(<exp1>,<index>, \"<exp1>\", <size1>) && checkNotNull(&<exp1>[<index>])? <exp1>[<index>] : <exp1>[<index>])" 
+
+fieldAccess(exp1, id1) ::="(checkNotNull(&(<exp1>-><id1>))? <exp1>-><id1> : <exp1>-><id1>)"
+
+//varRef(id1) ::="<id1>"
+
+localDeclaration(type,id1)::="<type> <id1>;"
+
+parenExp(exp1)::="(<exp1>)"
+
+invExp1(id1,invoke)::="<id1>.<invoke>"
+
+invExp2(id2,args)::="<id2>(<args>)"
+
+invokeExpStatement(exp1)::="<exp1>;"
+
+returnStatement(exp1, vars1)::=
+<<
+void* RU = <exp1>;
+<vars1; separator="<\n>">
+return RU;>>
+
+primitiveReturnStatement(exp1, vars1)::=
+<<
+<vars1; separator="<\n>">
+return <exp1>;>>
+
+fieldDeclaration(type1,id1)::="<type1> <id1>;"
+
+params(param1)::="<param1; separator=\", \">" 
+
+param(type1, id1)::= "<type1> <id1>"
+
+increment(lhs1)::="<lhs1>++"
+
+decrement(lhs1)::="<lhs1>--"
+
+args(exp1)::="<exp1; separator=\", \">"
+
+ClassInstanceNewExpr(id1,var1)::="(<id1>*)newObject(vm, &<var1>, sizeof (<id1>))" // Fchange
+
+ArrayWLengthNewExpr(type1,size1, var1)::="newArray(vm,\"<type1>\",&<var1> ,<size1> * sizeof (<type1>), NULL)" // Fchange
+
+ArrayWElementNewExpr(type1, arrayInit1, size1, var1)::= "newArray(vm,\"<type1>\",&<var1> , <size1> * sizeof (<type1>), makeList(vm,&<var1>, <size1>,<arrayInit1> ))" // Fchange
+
+id(v)::= "<v>"
+
+doWhileStatement(statement,exp1)::=
+<<do {
+	<statement; separator="\n ">
+}while(<exp1>);
+>> // Fchange
+
+forInits(init)::="<init; separator=\", \">"
+
+forUpdates(update1)::="<update1; separator=\", \">"
+
+forStatement(init,exp1,update,statement)::=
+<<for (<init> ; <exp1> ; <update>) {
+	<statement; separator="\n">
+}
+>> // Fchange
+
+whileStatement(exp1,statement)::=
+<<while (<exp1>) {
+	<statement; separator="\n">
+}
+>> // Fchange
+ifStatement(exp1,then1,else1)::=
+<<if (<exp1>) {
+	<then1; separator="\n">
+}else{
+	<else1; separator="\n">
+}
+>> // Fchange
+
+//methodBody(localDec,statement)::="<localDec; separator=\"\n \"> <statement; separator=\"\n \">"
+
+methodDeclaration(returnType,id1,param1,methodBody1, vars1)::=
+<<<returnType> <id1>(<param1>) {
+	<methodBody1>
+	
+	//set all vars to zero and have the TEMP variable for the return expression
+}
+>> // Fchange
+
+mainMethodDeclaration(id1,methodBody1)::=
+<<int main(char* <id1>) {
+	vm = newVM();
+	<methodBody1>
+	return 0;
+}
+>> // Fchange
+
+
+simpleClassDeclaration(id1, fields1)::=
+<<typedef struct <id1> {
+	<fields1; separator="\n">
+}<id1>;
+>> // Fchange
+
+arrayInit(exp1)::="<exp1; separator=\", \">" // Fchange
+
+incDecStatement(incdec1)::= "<incdec1>;"
+
+classDeclaration(body, mainMethod)::= "<body><\n><mainMethod>"
+
+block(exp1)::= "<exp1; separator=\"\n\">"
+
+compilationUnit(mainClass, simpleClass)::= 
+<<#include\<stdio.h>
+#include\<stdlib.h>
+#include\<stdbool.h>
+#include "GC.c"
+#include "ExceptionHandlingFunctions.c"
+VM* vm;
+<simpleClass; separator="\n">
+<mainClass>
+>> 
+arrayType(type1)::= "<type1>*"
+
+unsignedRightShift(exp1,op, exp2)::= "((unsigned int)<exp1>) >> <exp2>"
+
+division(exp1,op,exp2)::="<exp1> <op> (checkDivision(<exp2>)? <exp2> : <exp2>)"
+
+ckeckLeftShift(exp1,op,exp2)::="<exp1> <op> (checkLeftShift(<exp1>,<exp2>)? <exp2> : <exp2>)"
+
+classType(type1)::= "struct <type1>*"
+
+setToNull(var1)::= "<var1> = NULL;"
+
+//changed args
+//changed assign
+//changes invokeExp1 and 2
+//do sth about return?? return in void + return 0???
+//fix all getType(); done
+//take out static java lib and leave the assert as a function
+//11:3: error: incompatible types when assigning to type 'CWN' from type 'void *'
+//o = malloc(sizeof (CWN));
+//SyntaxTorture.returnVoid();
+
+
+

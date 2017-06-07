@@ -1,0 +1,108 @@
+assign(lhs1, exp1) ::= "<lhs1> = <exp1>"
+
+assignStatement(assign1)::= "<assign1>;"
+
+lhsId(id1) ::="<id1>"
+
+lhsField(exp1, id1) ::="<exp1>.<id1>" //new
+
+lhsArrayAccess(exp1, index) ::="<exp1>[<index>])" //new
+
+binaryExp(exp1, op, exp2) ::="<exp1> <op> <exp2>"
+
+condExp(exp1,exp2,exp3) ::="<exp1> ? <exp2> : <exp3>"
+
+unaryExp(op, exp1) ::="<op><exp1>"
+
+arrayAccess(exp1, index)::="(checkArray(<exp1>,<index>) && checkNotNull(<exp1>[<index>])? <exp1>[<index>] : <exp1>[<index>])"     //new
+
+fieldAccess(exp1, id1) ::="checkNotNull(<exp1>.<id1>)? <exp1>.<id1> : <exp1>.<id1>"     //new
+
+//varRef(id1) ::="<id1>"
+
+localDeclaration(type,id1)::="<type> <id1>;"
+
+parenExp(exp1)::="(<exp1>)"
+
+invExp1(id1,invoke)::="<id1>.<invoke>"
+
+invExp2(id2,args)::="<id2>(<args>)"
+
+invokeExpStatement(exp1)::="<exp1>;"
+
+returnStatement(exp1)::="return <exp1>;"
+
+fieldDeclaration(type1,id1)::="<type1> <id1>;"
+
+params(param1)::="<param1; separator=\", \">" 
+
+param(type1, id1)::= "<type1> <id1>"
+
+increment(lhs1)::="<lhs1>++"
+
+decrement(lhs1)::="<lhs1>--"
+
+args(exp1)::="<exp1; separator=\", \">" //changed
+
+ClassInstanceNewExpr(id1)::="malloc(sizeof (<id1>))" 
+
+ArrayWLengthNewExpr(type1,size1)::="malloc(<size1> * sizeof (<type1>))"
+
+ArrayWElementNewExpr(type1, arrayInit1, size1)::= "(<type1>[<size1>]) <arrayInit1>"
+
+id(v)::= "<v>"
+
+doWhileStatement(statement,exp1)::="do {<\n><statement; separator=\"\n \"><\n>}while(<exp1>);<\n>"
+
+forInits(init)::="<init; separator=\", \">"
+
+forUpdates(update1)::="<update1; separator=\", \">"
+
+forStatement(init,exp1,update,statement)::="for (<init> ; <exp1> ; <update>) {<\n><statement; separator=\"\n\"><\n>}<\n>"
+
+whileStatement(exp1,statement)::="while (<exp1>) {<\n><statement; separator=\"\n\"><\n>}<\n>"
+ifStatement(exp1,then1,else1)::="if (<exp1>) {<\n><then1; separator=\"\n\"><\n>} else {<\n><else1; separator=\"\n\"><\n>}<\n>"
+
+//methodBody(localDec,statement)::="<localDec; separator=\"\n \"> <statement; separator=\"\n \">"
+
+methodDeclaration(returnType,id1,param1,methodBody1)::="<returnType> <id1>(<param1>) {<\n><methodBody1><\n>}<\n>"
+
+mainMethodDeclaration(id1,methodBody1)::="int main(char* <id1>) {<\n><methodBody1><\n>return 0;<\n>}<\n>"
+
+
+simpleClassDeclaration(id1, fields1)::="typedef struct <id1> {<\n><fields1; separator=\"\n\"><\n>}<id1>;<\n>" //change typedef/struct
+
+arrayInit(exp1)::="{<exp1; separator=\", \">}"
+
+incDecStatement(incdec1)::= "<incdec1>;"
+
+//new
+classDeclaration(body, mainMethod)::= "<body><\n><mainMethod>" //check
+
+block(exp1)::= "<exp1; separator=\"\n\">"
+
+compilationUnit(mainClass, simpleClass)::= "#include\<stdio.h><\n>#include\<stdlib.h><\n>#include\<stdbool.h><\n><simpleClass; separator=\"\n\"><\n><mainClass>"
+
+arrayType(type1)::= "<type1>*"
+
+unsignedRightShift(exp1, exp2)::= "((unsigned int)<exp1>) >> <exp2>"
+
+division(exp1,op,exp2)::="<exp1> <op> checkDivision(<exp2>)? <exp2> : <exp2>"   //new
+
+ckeckLeftShift(exp1,op,exp2)::="<exp1> <op> checkLeftShift(<exp1>,<exp2>)? <exp2> : <exp2>"   //new
+
+
+
+
+//changed args
+//changed assign
+//changes invokeExp1 and 2
+//do sth about return?? return in void + return 0???
+//fix all getType(); done
+//take out static java lib and leave the assert as a function
+//11:3: error: incompatible types when assigning to type 'CWN' from type 'void *'
+//o = malloc(sizeof (CWN));
+//SyntaxTorture.returnVoid();
+
+
+

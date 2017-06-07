@@ -1,0 +1,11 @@
+gcc: test.c: No such file or directory
+gcc: no input files
+c:\workspace\test.c: In function 'main':
+c:\workspace\test.c:6: warning: division by zero
+Hello WorldHello WorldMicrosoft Windows [Version 10.0.10586]
+(c) 2015 Microsoft Corporation. All rights reserved.
+
+c:\workspace>Microsoft Windows [Version 10.0.10586]
+(c) 2015 Microsoft Corporation. All rights reserved.
+
+c:\workspace>
